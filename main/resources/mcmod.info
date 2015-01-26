@@ -1,0 +1,16 @@
+[
+{
+  "modid": "slipgates",
+  "name": "Slipgates",
+  "description": "Just let it slip, gate.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://slipgates.byteberry.net",
+  "updateUrl": "",
+  "authorList": ["alu"],
+  "credits": "No.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

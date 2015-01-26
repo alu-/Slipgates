@@ -1,0 +1,4 @@
+tile.slipgates:portalBlock.name=Portal Block
+tile.slipgates:portalCapacitor.name=Portal Capacitor
+tile.slipgates:portalCharger.name=Portal Charger
+tile.slipgates:portalEmitter.name=Portal Emitter
