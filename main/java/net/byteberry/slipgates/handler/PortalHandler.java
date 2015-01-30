@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.logging.log4j.core.impl.Log4jLogEvent;
 import org.lwjgl.util.vector.Vector3f;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -69,20 +70,36 @@ public class PortalHandler {
 	public void addPortal(World world, int x, int y, int z) {
 		Vector3f coords = new Vector3f(x, y, z);
 		Integer dimensionId = world.provider.dimensionId;
-		
-		if( dimensionToCoordinates.containsKey(dimensionId) ) {
+
+		if (dimensionToCoordinates.containsKey(dimensionId)) {
 			ArrayList portals = (ArrayList) dimensionToCoordinates.get(dimensionId);
-			portals.add(coords);
+			if (portals.contains(coords)) {
+				// Whoopsie, this portal is already here..
+			} else {
+				portals.add(coords);
+			}
 		} else {
 			ArrayList portals = new ArrayList<Vector3f>();
 			portals.add(coords);
-			dimensionToCoordinates.put(dimensionId, portals);	
+			dimensionToCoordinates.put(dimensionId, portals);
 		}
-		
 		System.out.println("I've hopefully added a portal.");
 	}
 
-	public void removePortal() {
+	public void removePortal(World world, int x, int y, int z) {
+		Vector3f coords = new Vector3f(x, y, z);
+		Integer dimensionId = world.provider.dimensionId;
+
+		if (dimensionToCoordinates.containsKey(dimensionId)) {
+			ArrayList portals = (ArrayList) dimensionToCoordinates.get(dimensionId);
+			if (portals.contains(coords)) {
+				portals.remove(coords);
+			} else {
+				// Whoopsie, this portal is missing from registry
+			}
+		} else {
+			// Whoopsie, this dimension is missing from registry
+		}
 
 	}
 
@@ -108,11 +125,11 @@ public class PortalHandler {
 			System.out.println(pairs.getKey() + " = " + pairs.getValue());
 		}
 
-//		Iterator<Vector3f> iterator = test.iterator();
-//		while (iterator.hasNext()) {
-//			Vector3f element = iterator.next();
-//			System.out.print("Portal: " + element.toString());
-//		}
+		// Iterator<Vector3f> iterator = test.iterator();
+		// while (iterator.hasNext()) {
+		// Vector3f element = iterator.next();
+		// System.out.print("Portal: " + element.toString());
+		// }
 		return portals;
 	}
 

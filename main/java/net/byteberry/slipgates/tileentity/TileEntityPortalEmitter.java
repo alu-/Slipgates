@@ -54,7 +54,14 @@ public class TileEntityPortalEmitter extends TileEntity {
 						Slipgates.portalHandler.addPortal(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
 					}
 				} else {
-					this.state = MultiBlockState.INVALID;
+					if( this.state.equals(MultiBlockState.INVALID)) {
+						// No change
+					} else {
+						// Multiblock has been invalidated
+						this.state = MultiBlockState.INVALID;
+						Slipgates.portalHandler.removePortal(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
+					}
+					
 				}
 			}
 		}
