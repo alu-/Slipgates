@@ -41,6 +41,7 @@ public class PortalHandler {
 			FileInputStream fis = new FileInputStream("portals.dat");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			dimensionToCoordinates = (HashMap) ois.readObject();
+			ois.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
