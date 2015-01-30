@@ -1,5 +1,7 @@
 package net.byteberry.slipgates;
 
+import org.apache.logging.log4j.Logger;
+
 import net.byteberry.slipgates.reference.Reference;
 import net.byteberry.slipgates.proxy.*;
 import net.byteberry.slipgates.block.*;
@@ -10,11 +12,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -31,12 +35,15 @@ public class Slipgates {
 	@Mod.Instance(Reference.MOD_ID)
 	public static Slipgates instance;
 
+	private static Logger logger;
+
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
 	public static IProxy proxy;
 
 	@EventHandler
-	public void preInit(FMLInitializationEvent event) {
-		System.out.println("Loading " + Reference.MOD_NAME + " " + Reference.VERSION);
+	public void preInit(FMLPreInitializationEvent event) {
+		logger = event.getModLog();
+		logger.info("Loading " + Reference.MOD_NAME + " " + Reference.VERSION);
 
 		// Create and register blocks
 		PortalBlock = new PortalBlock(Material.glass);
@@ -61,12 +68,13 @@ public class Slipgates {
 
 		// Load our portals from file
 		portalHandler.load();
+
+		logger.debug(portalHandler.getAllPortals());
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		System.out.println("Finished loading " + Reference.MOD_NAME + " " + Reference.VERSION);
-		System.out.println(portalHandler.getAllPortals()); // Just for debugging
+		logger.info("Finished loading " + Reference.MOD_NAME + " " + Reference.VERSION);
 	}
 
 	@Mod.EventHandler
