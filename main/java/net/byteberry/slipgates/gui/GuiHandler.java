@@ -1,5 +1,6 @@
-package net.byteberry.slipgates.client.gui;
+package net.byteberry.slipgates.gui;
 
+import net.byteberry.slipgates.client.gui.GuiPortalCapacitor;
 import net.byteberry.slipgates.inventory.ContainerPortalCapacitor;
 import net.byteberry.slipgates.reference.GUIs;
 import net.byteberry.slipgates.tileentity.TileEntityPortalCapacitor;

@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import net.byteberry.slipgates.reference.Reference;
 import net.byteberry.slipgates.proxy.*;
 import net.byteberry.slipgates.block.*;
-import net.byteberry.slipgates.client.gui.GuiHandler;
+import net.byteberry.slipgates.gui.GuiHandler;
 import net.byteberry.slipgates.handler.PortalHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -66,6 +66,7 @@ public class Slipgates {
 		// Register the GUI handler
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 
+		// TODO portal loading/saving needs to be server only? We should probably move this to the proxies
 		// Load our portals from file
 		portalHandler.load();
 
