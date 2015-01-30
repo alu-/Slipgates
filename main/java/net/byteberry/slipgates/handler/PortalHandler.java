@@ -69,7 +69,17 @@ public class PortalHandler {
 	public void addPortal(World world, int x, int y, int z) {
 		Vector3f coords = new Vector3f(x, y, z);
 		Integer dimensionId = world.provider.dimensionId;
-
+		
+		if( dimensionToCoordinates.containsKey(dimensionId) ) {
+			ArrayList portals = (ArrayList) dimensionToCoordinates.get(dimensionId);
+			portals.add(coords);
+		} else {
+			ArrayList portals = new ArrayList<Vector3f>();
+			portals.add(coords);
+			dimensionToCoordinates.put(dimensionId, portals);	
+		}
+		
+		System.out.println("I've hopefully added a portal.");
 	}
 
 	public void removePortal() {

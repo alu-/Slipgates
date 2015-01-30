@@ -26,7 +26,7 @@ public class Slipgates {
 	public static Block PortalCharger;
 	public static Block PortalEmitter;
 
-	public final PortalHandler portalHandler = new PortalHandler();
+	public final static PortalHandler portalHandler = new PortalHandler();
 
 	@Mod.Instance(Reference.MOD_ID)
 	public static Slipgates instance;

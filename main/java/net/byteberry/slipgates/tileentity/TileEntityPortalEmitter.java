@@ -1,5 +1,6 @@
 package net.byteberry.slipgates.tileentity;
 
+import net.byteberry.slipgates.Slipgates;
 import net.byteberry.slipgates.block.PortalBlock;
 import net.byteberry.slipgates.block.PortalCapacitor;
 import net.byteberry.utils.Game;
@@ -47,8 +48,10 @@ public class TileEntityPortalEmitter extends TileEntity {
 					if (this.state.equals(MultiBlockState.VALID)) {
 						// No change
 					} else {
-						// TODO: Notify client of this change somehow. Also needs to be on invalid I guess.
+						// TODO: Notify client of this change somehow. Also
+						// needs to be on invalid I guess.
 						this.state = MultiBlockState.VALID;
+						Slipgates.portalHandler.addPortal(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
 					}
 				} else {
 					this.state = MultiBlockState.INVALID;
@@ -142,7 +145,7 @@ public class TileEntityPortalEmitter extends TileEntity {
 				}
 			}
 		}
-		
+
 		return true;
 	}
 }
