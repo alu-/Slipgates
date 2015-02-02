@@ -23,38 +23,36 @@ import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_ID, guiFactory = Reference.GUI_FACTORY_CLASS)
+@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASS)
 public class Slipgates {
-	public static Block PortalBlock;
-	public static Block PortalCapacitor;
-	public static Block PortalCharger;
-	public static Block PortalEmitter;
-
 	public final static PortalHandler portalHandler = new PortalHandler();
 
 	@Mod.Instance(Reference.MOD_ID)
 	public static Slipgates instance;
 
-	private static Logger logger;
-
+	public static Logger logger;
+	/*
+	 * The ClientProxy is called on startup if minecraft is started from a
+	 * Combined Client
+	 * 
+	 * The ServerProxy is called on startup if minecraft is started from a
+	 * Dedicated Server
+	 * 
+	 * A game process runs on the Server Side if it executes the world update
+	 * tasks etc.
+	 * 
+	 * A game process runs on the Client Side if it executes rendering and shows
+	 * the world to a player who controls his character
+	 */
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
-	public static IProxy proxy;
+	public static CommonProxy proxy;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
 		logger.info("Loading " + Reference.MOD_NAME + " " + Reference.VERSION);
 
-		// Create and register blocks
-		PortalBlock = new PortalBlock(Material.glass);
-		PortalCapacitor = new PortalCapacitor(Material.glass);
-		PortalCharger = new PortalCharger(Material.glass);
-		PortalEmitter = new PortalEmitter(Material.glass);
-
-		GameRegistry.registerBlock(PortalBlock, "portalBlock");
-		GameRegistry.registerBlock(PortalCapacitor, "portalCapacitor");
-		GameRegistry.registerBlock(PortalCharger, "portalCharger");
-		GameRegistry.registerBlock(PortalEmitter, "portalEmitter");
+		this.proxy.preInit(event);
 	}
 
 	@EventHandler
@@ -66,22 +64,27 @@ public class Slipgates {
 		// Register the GUI handler
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 
-		// TODO portal loading/saving needs to be server only? We should probably move this to the proxies
+		// TODO portal loading/saving needs to be server only? We should
+		// probably move this to the proxies
 		// Load our portals from file
-		portalHandler.load();
+		// portalHandler.load();
 
-		logger.debug(portalHandler.getAllPortals());
+		// logger.debug(portalHandler.getAllPortals());
+		this.proxy.init(event);
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		logger.info("Finished loading " + Reference.MOD_NAME + " " + Reference.VERSION);
+		this.proxy.postInit(event);
 	}
 
 	@Mod.EventHandler
-	public void serverStop(FMLServerStoppingEvent event) {
+	public void serverStopping(FMLServerStoppingEvent event) {
 		// Save our portals to file
-		portalHandler.save();
+		// portalHandler.save();
+
+		this.proxy.serverStopping(event);
 	}
 
 }
