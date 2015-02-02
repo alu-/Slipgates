@@ -22,13 +22,13 @@ public class TileEntityPortalEmitter extends TileEntity {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		this.state = state.values()[nbt.getInteger("state")];
+		nbt.setInteger("state", this.state.ordinal());
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		nbt.setInteger("state", this.state.ordinal());
+		this.state = state.values()[nbt.getInteger("state")];
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class TileEntityPortalEmitter extends TileEntity {
 						// TODO: Notify client of this change somehow. Also
 						// needs to be on invalid I guess.
 						this.state = MultiBlockState.VALID;
-						Slipgates.portalHandler.addPortal(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
+						Slipgates.instance.portalHandler.addPortal(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
 					}
 				} else {
 					if( this.state.equals(MultiBlockState.INVALID)) {
@@ -59,7 +59,7 @@ public class TileEntityPortalEmitter extends TileEntity {
 					} else {
 						// Multiblock has been invalidated
 						this.state = MultiBlockState.INVALID;
-						Slipgates.portalHandler.removePortal(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
+						Slipgates.instance.portalHandler.removePortal(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
 					}
 					
 				}
