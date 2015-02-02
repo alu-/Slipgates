@@ -18,6 +18,7 @@ import java.util.Map.Entry;
 import org.apache.logging.log4j.core.impl.Log4jLogEvent;
 import org.lwjgl.util.vector.Vector3f;
 
+import net.byteberry.utils.Game;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;

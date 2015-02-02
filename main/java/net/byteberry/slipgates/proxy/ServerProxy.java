@@ -16,12 +16,6 @@ public class ServerProxy extends CommonProxy {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
-		
-		// Load our portals from file
-		System.out.println("Slipgates server proxy init");
-		Slipgates.portalHandler.load();
-
-		Slipgates.logger.debug(Slipgates.portalHandler.getAllPortals());
 	}
 
 	@Override
@@ -37,10 +31,6 @@ public class ServerProxy extends CommonProxy {
 	@Override
 	public void serverStopping(FMLServerStoppingEvent event) {
 		super.serverStopping(event);
-		
-		// Save our portals to file
-		System.out.println("Server stopping server proxy");
-		Slipgates.portalHandler.save();
 	}
 
 }
