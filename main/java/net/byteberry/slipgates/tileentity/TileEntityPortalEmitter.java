@@ -1,5 +1,7 @@
 package net.byteberry.slipgates.tileentity;
 
+import org.lwjgl.util.vector.Vector3f;
+
 import net.byteberry.slipgates.Slipgates;
 import net.byteberry.slipgates.block.PortalBlock;
 import net.byteberry.slipgates.block.PortalCapacitor;
@@ -15,20 +17,27 @@ public class TileEntityPortalEmitter extends TileEntity {
 	public enum MultiBlockState {
 		VALID, INVALID, UNKNOWN // UNKNOWN means it is probably unloaded
 	};
-
-	private int clock = 1337; // Because why not.
+	
 	private MultiBlockState state = MultiBlockState.UNKNOWN;
+	private int[] tiedDimensionAndCoords = new int[4]; // Dimension, x, y, z
+
+	private int portalCooldown = 10; // The portal should have a 10 second cooldown
+	
+	private int clock = 1337; // Because why not.
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("state", this.state.ordinal());
+		nbt.setInteger("portalCooldown", this.portalCooldown);
+		nbt.setIntArray("tiedPortalLocation", this.tiedDimensionAndCoords);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.state = state.values()[nbt.getInteger("state")];
+		this.tiedDimensionAndCoords = nbt.getIntArray("tiedPortalLocation");
 	}
 
 	@Override
@@ -54,14 +63,14 @@ public class TileEntityPortalEmitter extends TileEntity {
 						Slipgates.instance.portalHandler.addPortal(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
 					}
 				} else {
-					if( this.state.equals(MultiBlockState.INVALID)) {
+					if (this.state.equals(MultiBlockState.INVALID)) {
 						// No change
 					} else {
 						// Multiblock has been invalidated
 						this.state = MultiBlockState.INVALID;
 						Slipgates.instance.portalHandler.removePortal(this.getWorldObj(), this.xCoord, this.yCoord, this.zCoord);
 					}
-					
+
 				}
 			}
 		}
@@ -154,5 +163,19 @@ public class TileEntityPortalEmitter extends TileEntity {
 		}
 
 		return true;
+	}
+	 
+	/**
+	 * @return int[] Dimension, x, y, z
+	 */
+	public int[] getTiedDimensionAndCoords() {
+		return tiedDimensionAndCoords;
+	}
+
+	/**
+	 * @param int[] tiedDimensionAndCoords Dimension, x, y, z
+	 */
+	public void setTiedDimensionAndCoords(int[] tiedDimensionAndCoords) {
+		this.tiedDimensionAndCoords = tiedDimensionAndCoords;
 	}
 }
