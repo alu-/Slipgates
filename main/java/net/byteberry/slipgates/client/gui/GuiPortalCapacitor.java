@@ -19,6 +19,7 @@ import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.GuiScrollingList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -29,15 +30,23 @@ public class GuiPortalCapacitor extends GuiScreen {
 	public final int xSizeOfTexture = 176;
 	public final int ySizeOfTexture = 88;
 	private TileEntityPortalCapacitor tile;
+	private GuiScrollingList optionList;
 
 	public GuiPortalCapacitor(TileEntityPortalCapacitor tile) {
 		this.tile = tile;
+		
+		
 	}
 
 	protected void drawGuiForegroundLayer() {
+		// TODO remove ScaledResolution, we arent using it.. yet.
 		ScaledResolution scaledRes = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
 		int scaledWidth = scaledRes.getScaledWidth();
 		int scaledHeight = scaledRes.getScaledHeight();
+		
+		// TODO implement a scroll list of all the active and formed portals
+		// check GuiIngameModOptions extends GuiScreen for a scrolling gui list
+		// We need to extend GuiScrollingList. http://cmicro.github.io/NeatCraft/forge-javadoc/cpw/mods/fml/client/GuiScrollingList.html
 
 		drawCenteredString(fontRendererObj, "Portal Block Power", width / 2, (height / 2) - 25, 0xFFFFFFFF);
 		drawCenteredString(fontRendererObj, this.tile.getEnergyInSlipgate() + " RF", width / 2, (height / 2) - 5, 0xFFDE0000);

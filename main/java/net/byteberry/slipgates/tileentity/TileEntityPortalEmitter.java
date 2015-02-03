@@ -17,12 +17,13 @@ public class TileEntityPortalEmitter extends TileEntity {
 	public enum MultiBlockState {
 		VALID, INVALID, UNKNOWN // UNKNOWN means it is probably unloaded
 	};
-	
+
 	private MultiBlockState state = MultiBlockState.UNKNOWN;
 	private int[] tiedDimensionAndCoords = new int[4]; // Dimension, x, y, z
 
-	private int portalCooldown = 10; // The portal should have a 10 second cooldown
-	
+	// Portal should have 10 seconds cooldown before more transports
+	private int portalCooldown = 10;
+
 	private int clock = 1337; // Because why not.
 
 	@Override
@@ -164,7 +165,7 @@ public class TileEntityPortalEmitter extends TileEntity {
 
 		return true;
 	}
-	 
+
 	/**
 	 * @return int[] Dimension, x, y, z
 	 */
