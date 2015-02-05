@@ -6,10 +6,12 @@ import net.byteberry.slipgates.tileentity.TileEntityPortalCapacitor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -30,23 +32,33 @@ public class GuiPortalCapacitor extends GuiScreen {
 	public final int xSizeOfTexture = 176;
 	public final int ySizeOfTexture = 88;
 	private TileEntityPortalCapacitor tile;
-	private GuiScrollingList optionList;
+	private GuiPortalScrollList optionList;
 
 	public GuiPortalCapacitor(TileEntityPortalCapacitor tile) {
 		this.tile = tile;
-		
-		
+		// Perhaps we need to rework the widths and heights, i suspect our real size of guiscreen is much larger than our background and data
+		//this.height
+		//this.width
 	}
 
-	protected void drawGuiForegroundLayer() {
-		// TODO remove ScaledResolution, we arent using it.. yet.
+	@Override
+	public void initGui() {
+		this.optionList = new GuiPortalScrollList(this);
+		this.optionList.registerScrollButtons(this.buttonList, 7, 8);
+		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
+	}
+
+	protected void drawGuiForegroundLayer(int i, int j, float f) {
+		// TODO remove ScaledResolution? we aren't using it.. yet.
 		ScaledResolution scaledRes = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
 		int scaledWidth = scaledRes.getScaledWidth();
 		int scaledHeight = scaledRes.getScaledHeight();
-		
+
 		// TODO implement a scroll list of all the active and formed portals
 		// check GuiIngameModOptions extends GuiScreen for a scrolling gui list
-		// We need to extend GuiScrollingList. http://cmicro.github.io/NeatCraft/forge-javadoc/cpw/mods/fml/client/GuiScrollingList.html
+		// We need to extend GuiScrollingList.
+		// http://cmicro.github.io/NeatCraft/forge-javadoc/cpw/mods/fml/client/GuiScrollingList.html
+		this.optionList.drawScreen(i, j, f);
 
 		drawCenteredString(fontRendererObj, "Portal Block Power", width / 2, (height / 2) - 25, 0xFFFFFFFF);
 		drawCenteredString(fontRendererObj, this.tile.getEnergyInSlipgate() + " RF", width / 2, (height / 2) - 5, 0xFFDE0000);
@@ -56,12 +68,10 @@ public class GuiPortalCapacitor extends GuiScreen {
 		drawDefaultBackground();
 		drawGuiBackgroundLayer();
 
-		super.drawScreen(i, j, f); // Buttons
-
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 
-		drawGuiForegroundLayer();
+		drawGuiForegroundLayer(i, j, f);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
