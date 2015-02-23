@@ -1,5 +1,9 @@
 package net.byteberry.slipgates.tileentity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.Level;
 import org.lwjgl.util.vector.Vector3f;
 
 import net.byteberry.slipgates.Slipgates;
@@ -8,9 +12,12 @@ import net.byteberry.slipgates.block.PortalCapacitor;
 import net.byteberry.utils.Game;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPortalEmitter extends TileEntity {
@@ -73,7 +80,13 @@ public class TileEntityPortalEmitter extends TileEntity {
 					}
 
 				}
+
+				// Check for players within reach
+				if (this.state.equals(MultiBlockState.VALID)) {
+					handleEntitiesClose(this.getWorldObj());
+				}
 			}
+
 		}
 	}
 
@@ -171,6 +184,31 @@ public class TileEntityPortalEmitter extends TileEntity {
 	 */
 	public int[] getTiedDimensionAndCoords() {
 		return tiedDimensionAndCoords;
+	}
+
+	private void handleEntitiesClose(World worldObj) {
+		System.out.println("Handling entities");
+		// Get chunks that the multiblock is on
+		int i = MathHelper.floor_double((this.xCoord - 1) / 16.0D);
+		int j = MathHelper.floor_double((this.xCoord + 1) / 16.0D);
+		int k = MathHelper.floor_double((this.zCoord - 1) / 16.0D);
+		int l = MathHelper.floor_double((this.zCoord + 1) / 16.0D);
+		ArrayList arraylist = new ArrayList();
+
+		for (int i1 = i; i1 <= j; ++i1) {
+			for (int j1 = k; j1 <= l; ++j1) {
+				Chunk chunk = worldObj.getChunkFromChunkCoords(i1, j1);
+				// Iterate the chunk.entityLists
+				Slipgates.instance.logger.log(Level.DEBUG, "Chunk" + i1 + " " + j1);
+			}
+		}
+
+		
+
+		// Handle mobs
+
+		// Handle players
+
 	}
 
 	/**
