@@ -1,55 +1,49 @@
 package net.byteberry.slipgates.tileentity;
 
+import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPortalCapacitor extends TileEntity implements IEnergyReceiver{
+public class TileEntityPortalCapacitor extends TileEntity implements IEnergyReceiver {
+	
+	protected EnergyStorage storage = new EnergyStorage(32000);
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt) 
-	{
+	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
+		storage.readFromNBT(nbt);
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) 
-	{	
-		try {
-			super.writeToNBT(nbt);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		storage.writeToNBT(nbt);
 	}
 	
-	public String getEnergyInSlipgate() {
-		return "Please implement this";
-	}
-
+	/* IEnergyConnection (connect to energy transportation blocks) */
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
-		// TODO Auto-generated method stub
+		// TODO check if this hampers recieveEnergy method
 		return false;
 	}
 
+	/* IEnergyReceiver */
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-		// TODO Auto-generated method stub
-		return 0;
+		// TODO check if direction block is charger
+		return storage.receiveEnergy(maxReceive, simulate);
 	}
-
+	
 	@Override
 	public int getEnergyStored(ForgeDirection from) {
-		// TODO Auto-generated method stub
-		return 0;
+		return storage.getEnergyStored();
 	}
 
 	@Override
 	public int getMaxEnergyStored(ForgeDirection from) {
-		// TODO Auto-generated method stub
-		return 0;
+		return storage.getMaxEnergyStored();
 	}
 	
 }

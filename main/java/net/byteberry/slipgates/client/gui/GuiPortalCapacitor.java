@@ -18,6 +18,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
@@ -43,9 +44,9 @@ public class GuiPortalCapacitor extends GuiScreen {
 
 	@Override
 	public void initGui() {
-		this.optionList = new GuiPortalScrollList(this);
-		this.optionList.registerScrollButtons(this.buttonList, 7, 8);
-		this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
+		//this.optionList = new GuiPortalScrollList(this);
+		//this.optionList.registerScrollButtons(this.buttonList, 7, 8);
+		//this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
 	}
 
 	protected void drawGuiForegroundLayer(int i, int j, float f) {
@@ -58,10 +59,11 @@ public class GuiPortalCapacitor extends GuiScreen {
 		// check GuiIngameModOptions extends GuiScreen for a scrolling gui list
 		// We need to extend GuiScrollingList.
 		// http://cmicro.github.io/NeatCraft/forge-javadoc/cpw/mods/fml/client/GuiScrollingList.html
-		this.optionList.drawScreen(i, j, f);
+		
+		//this.optionList.drawScreen(i, j, f);
 
 		drawCenteredString(fontRendererObj, "Portal Block Power", width / 2, (height / 2) - 25, 0xFFFFFFFF);
-		drawCenteredString(fontRendererObj, this.tile.getEnergyInSlipgate() + " RF", width / 2, (height / 2) - 5, 0xFFDE0000);
+		drawCenteredString(fontRendererObj, this.tile.getEnergyStored(ForgeDirection.DOWN) + " RF", width / 2, (height / 2) - 5, 0xFFDE0000);
 	}
 
 	public void drawScreen(int i, int j, float f) {

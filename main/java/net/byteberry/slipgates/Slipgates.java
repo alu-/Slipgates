@@ -31,6 +31,7 @@ public class Slipgates {
 	public static Slipgates instance;
 
 	public static Logger logger;
+	
 	/*
 	 * The ClientProxy is called on startup if minecraft is started from a
 	 * Combined Client
@@ -52,18 +53,18 @@ public class Slipgates {
 		logger = event.getModLog();
 		logger.info("Loading " + Reference.MOD_NAME + " " + Reference.VERSION);
 
+		// Register the GUI handler
+		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+		
+		// Register entities
+		GameRegistry.registerTileEntity(net.byteberry.slipgates.tileentity.TileEntityPortalCapacitor.class, "tileEntityPortalCapacitor");
+		GameRegistry.registerTileEntity(net.byteberry.slipgates.tileentity.TileEntityPortalEmitter.class, "tileEntityPortalEmitter");
+		
 		this.proxy.preInit(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		// Register entities
-		GameRegistry.registerTileEntity(net.byteberry.slipgates.tileentity.TileEntityPortalCapacitor.class, "tileEntityPortalCapacitor");
-		GameRegistry.registerTileEntity(net.byteberry.slipgates.tileentity.TileEntityPortalEmitter.class, "tileEntityPortalEmitter");
-
-		// Register the GUI handler
-		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-
 		// TODO portal loading/saving needs to be server only? We should
 		// probably move this to the proxies
 		// Load our portals from file

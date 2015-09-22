@@ -25,6 +25,7 @@ public class CommonProxy implements IProxy {
 
 	public void preInit(FMLPreInitializationEvent event) {
 		// Create and register blocks
+		// TODO change materials to more correct types
 		PortalBlock = new PortalBlock(Material.glass);
 		PortalCapacitor = new PortalCapacitor(Material.glass);
 		PortalCharger = new PortalCharger(Material.glass);

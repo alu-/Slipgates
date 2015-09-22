@@ -19,6 +19,7 @@ import org.apache.logging.log4j.core.impl.Log4jLogEvent;
 import org.lwjgl.util.vector.Vector3f;
 
 import net.byteberry.utils.Game;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
@@ -26,7 +27,6 @@ import net.minecraft.world.storage.MapStorage;
 
 // Class in charge of keeping track on portal multiblock positions
 public class PortalHandler {
-	// TODO implement DataOutputStream as save mechanism
 	private HashMap dimensionToCoordinates = new HashMap<Integer, ArrayList<Vector3f>>();
 
 	public PortalHandler() {
@@ -132,6 +132,25 @@ public class PortalHandler {
 		// System.out.print("Portal: " + element.toString());
 		// }
 		return portals;
+	}
+	
+	public boolean canSendPlayerThruPortal(EntityPlayer player) {
+		// TODO: Check portal timeout
+		
+		// TODO: Check portal energy
+		return false;
+	}
+	
+	public boolean sendPlayerThruPortal( EntityPlayer player) {
+		// TODO: Make player invulnerable
+		
+		// TODO: Stop drawing player for other players
+		
+		// TODO: Start client renderer (Fade, slipstream, emerging)
+		
+		
+		return false;
+		
 	}
 
 }

@@ -1,5 +1,6 @@
 package net.byteberry.slipgates.proxy;
 
+import net.byteberry.slipgates.Slipgates;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -20,6 +21,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
+		System.out.println("ClientProxy preInit");
 	}
 
 	@Override
