@@ -34,12 +34,10 @@ public class TileEntityPortalCharger extends TileEntity implements IEnergyHandle
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-//        if (worldObj.isRemote) {
-//        	return;
-//        }
-//        worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+		
+		// TODO do we implement reciving and making other block send power here?
 	}
-	
+
 	@Override
 	public Packet getDescriptionPacket() {
 		NBTTagCompound tag = new NBTTagCompound();
