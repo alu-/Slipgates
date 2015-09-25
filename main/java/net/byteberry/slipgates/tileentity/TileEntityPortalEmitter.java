@@ -92,6 +92,8 @@ public class TileEntityPortalEmitter extends TileEntity {
 
 	// Check 3x3x1 around this block for valid multiblock structure
 	private boolean canMultiblockForm() {
+		// TODO Maybe add a 3x3x3 instead of 3x3x1? Trigger a cool animation on multiblock construction?
+		
 		// Check cardinal directions for a PortalCapacitor, could be optimized
 		// by detecting multiple capacitors..
 		World theWorld = this.getWorldObj();

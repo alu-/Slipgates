@@ -7,9 +7,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPortalCapacitor extends TileEntity implements IEnergyReceiver {
-	
-	protected EnergyStorage storage = new EnergyStorage(32000);
-	
+
+	protected EnergyStorage storage = new EnergyStorage(2000000);
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -21,7 +21,7 @@ public class TileEntityPortalCapacitor extends TileEntity implements IEnergyRece
 		super.writeToNBT(nbt);
 		storage.writeToNBT(nbt);
 	}
-	
+
 	/* IEnergyConnection (connect to energy transportation blocks) */
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
@@ -35,7 +35,7 @@ public class TileEntityPortalCapacitor extends TileEntity implements IEnergyRece
 		// TODO check if direction block is charger
 		return storage.receiveEnergy(maxReceive, simulate);
 	}
-	
+
 	@Override
 	public int getEnergyStored(ForgeDirection from) {
 		return storage.getEnergyStored();
@@ -45,5 +45,5 @@ public class TileEntityPortalCapacitor extends TileEntity implements IEnergyRece
 	public int getMaxEnergyStored(ForgeDirection from) {
 		return storage.getMaxEnergyStored();
 	}
-	
+
 }

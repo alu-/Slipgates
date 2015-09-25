@@ -51,9 +51,9 @@ public class GuiPortalCapacitor extends GuiScreen {
 
 	protected void drawGuiForegroundLayer(int i, int j, float f) {
 		// TODO remove ScaledResolution? we aren't using it.. yet.
-		ScaledResolution scaledRes = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
-		int scaledWidth = scaledRes.getScaledWidth();
-		int scaledHeight = scaledRes.getScaledHeight();
+//		ScaledResolution scaledRes = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
+//		int scaledWidth = scaledRes.getScaledWidth();
+//		int scaledHeight = scaledRes.getScaledHeight();
 
 		// TODO implement a scroll list of all the active and formed portals
 		// check GuiIngameModOptions extends GuiScreen for a scrolling gui list
@@ -61,7 +61,9 @@ public class GuiPortalCapacitor extends GuiScreen {
 		// http://cmicro.github.io/NeatCraft/forge-javadoc/cpw/mods/fml/client/GuiScrollingList.html
 		
 		//this.optionList.drawScreen(i, j, f);
-
+		
+		// TODO redesign background so we can fit a scrollable list with active portals and their cost to teleport
+		
 		drawCenteredString(fontRendererObj, "Portal Block Power", width / 2, (height / 2) - 25, 0xFFFFFFFF);
 		drawCenteredString(fontRendererObj, this.tile.getEnergyStored(ForgeDirection.DOWN) + " RF", width / 2, (height / 2) - 5, 0xFFDE0000);
 	}

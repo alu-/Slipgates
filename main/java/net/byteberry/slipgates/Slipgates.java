@@ -3,6 +3,7 @@ package net.byteberry.slipgates;
 import org.apache.logging.log4j.Logger;
 
 import net.byteberry.slipgates.reference.Reference;
+import net.byteberry.slipgates.network.PacketHandler;
 import net.byteberry.slipgates.proxy.*;
 import net.byteberry.slipgates.block.*;
 import net.byteberry.slipgates.gui.GuiHandler;
@@ -17,6 +18,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
@@ -57,8 +59,12 @@ public class Slipgates {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 		
 		// Register entities
+		GameRegistry.registerTileEntity(net.byteberry.slipgates.tileentity.TileEntityPortalCharger.class, "tileEntityPortalCharger");
 		GameRegistry.registerTileEntity(net.byteberry.slipgates.tileentity.TileEntityPortalCapacitor.class, "tileEntityPortalCapacitor");
 		GameRegistry.registerTileEntity(net.byteberry.slipgates.tileentity.TileEntityPortalEmitter.class, "tileEntityPortalEmitter");
+		
+		// Network
+		PacketHandler.init();
 		
 		this.proxy.preInit(event);
 	}
@@ -71,6 +77,10 @@ public class Slipgates {
 		// portalHandler.load();
 
 		// logger.debug(portalHandler.getAllPortals());
+		
+		// Tell Waila that we are here.
+		FMLInterModComms.sendMessage("Waila", "register", "net.byteberry.slipgates.waila.WailaDataProvider.callbackRegister");
+		
 		this.proxy.init(event);
 	}
 
