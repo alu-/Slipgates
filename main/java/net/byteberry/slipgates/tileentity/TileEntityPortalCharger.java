@@ -34,8 +34,9 @@ public class TileEntityPortalCharger extends TileEntity implements IEnergyHandle
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		
-		// TODO do we implement reciving and making other block send power here?
+
+		// TODO do we implement receiving and making other block send power
+		// here?
 	}
 
 	@Override
@@ -60,7 +61,8 @@ public class TileEntityPortalCharger extends TileEntity implements IEnergyHandle
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
 		int energy = storage.receiveEnergy(maxReceive, simulate);
-		if (!worldObj.isRemote) {
+		if (!worldObj.isRemote && energy > 0) {
+			System.out.println("Marking block for update due to receiveEnergy: " + energy + " RF");
 			this.getWorldObj().markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 			markDirty();
 		}
@@ -71,7 +73,8 @@ public class TileEntityPortalCharger extends TileEntity implements IEnergyHandle
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
 		int energy = storage.extractEnergy(maxExtract, simulate);
-		if (!worldObj.isRemote) {
+		if (!worldObj.isRemote && energy > 0) {
+			System.out.println("Marking block for update due to extractEnergy: " + energy + " RF");
 			this.getWorldObj().markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 			markDirty();
 		}

@@ -35,6 +35,7 @@ public class PortalCapacitor extends Block implements ITileEntityProvider {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int i, float a, float b, float c) {
+		// TODO Fix right clicking the block with something in hand places that thing. 
 		System.out.println("Block Activated");
 		try {
 			
