@@ -1,15 +1,14 @@
 package net.byteberry.slipgates.tileentity;
 
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
-import net.byteberry.slipgates.Slipgates;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyHandler;
+import cofh.api.energy.IEnergyReceiver;
 
 public class TileEntityPortalCharger extends TileEntity implements IEnergyHandler {
 
@@ -34,7 +33,21 @@ public class TileEntityPortalCharger extends TileEntity implements IEnergyHandle
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-
+		try {
+			// Push power if TileEntity is of TileEntityPortalCapacitor
+			if ((storage.getEnergyStored() > 0)) {
+				for (int i = 0; i < 6; i++) {
+					TileEntity tile = worldObj.getTileEntity(xCoord + ForgeDirection.getOrientation(i).offsetX, yCoord
+							+ ForgeDirection.getOrientation(i).offsetY, zCoord + ForgeDirection.getOrientation(i).offsetZ);
+					if (tile instanceof TileEntityPortalCapacitor) {
+						storage.extractEnergy(((IEnergyReceiver) tile).receiveEnergy(ForgeDirection.getOrientation(i).getOpposite(), storage.extractEnergy(storage.getMaxExtract(), true), false), false);
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 		// TODO do we implement receiving and making other block send power
 		// here?
 	}
@@ -62,7 +75,6 @@ public class TileEntityPortalCharger extends TileEntity implements IEnergyHandle
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
 		int energy = storage.receiveEnergy(maxReceive, simulate);
 		if (!worldObj.isRemote && energy > 0) {
-			System.out.println("Marking block for update due to receiveEnergy: " + energy + " RF");
 			this.getWorldObj().markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 			markDirty();
 		}
@@ -74,7 +86,6 @@ public class TileEntityPortalCharger extends TileEntity implements IEnergyHandle
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
 		int energy = storage.extractEnergy(maxExtract, simulate);
 		if (!worldObj.isRemote && energy > 0) {
-			System.out.println("Marking block for update due to extractEnergy: " + energy + " RF");
 			this.getWorldObj().markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 			markDirty();
 		}
@@ -90,6 +101,10 @@ public class TileEntityPortalCharger extends TileEntity implements IEnergyHandle
 	@Override
 	public int getMaxEnergyStored(ForgeDirection from) {
 		return storage.getMaxEnergyStored();
+	}
+
+	public int getMaxExtract(ForgeDirection from) {
+		return storage.getMaxExtract();
 	}
 
 }

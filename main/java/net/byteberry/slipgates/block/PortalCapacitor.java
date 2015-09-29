@@ -41,7 +41,6 @@ public class PortalCapacitor extends Block implements ITileEntityProvider {
 			
 			if( !world.isRemote && world.getTileEntity(x, y, z) instanceof TileEntityPortalCapacitor ) 
 			{
-				System.out.println("Open gui triggered");
 				player.openGui(Slipgates.instance, GUIs.GUI_PORTAL_CAPACITOR.ordinal(), world, x, y, z);
 				return true;
 			}
