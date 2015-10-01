@@ -17,11 +17,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityPortalCapacitor extends TileEntity implements IEnergyReceiver {
 
 	protected EnergyStorage storage = new EnergyStorage(2000000);
-	protected IEnergyHandler portalCharger;
 
 	public TileEntityPortalCapacitor() {
 		super();
-		this.portalCharger = null;
 	}
 
 	@Override
@@ -43,30 +41,6 @@ public class TileEntityPortalCapacitor extends TileEntity implements IEnergyRece
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-
-		if (!worldObj.isRemote) {
-			// Check if Charger is connected
-			if (this.portalCharger instanceof IEnergyHandler) {
-				TileEntity maybeCharger;
-				for (int i = -1; i < 3; i++) {
-					// Check the x cardinals
-					maybeCharger = worldObj.getTileEntity(this.xCoord + i, this.yCoord, this.zCoord);
-					if (maybeCharger instanceof TileEntityPortalCharger) {
-						this.portalCharger = (IEnergyHandler) maybeCharger;
-						Slipgates.logger.debug("Portal Capacitor: I've connected a charger");
-						break;
-					}
-
-					// Check the z cardinals
-					maybeCharger = worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord + i);
-					if (maybeCharger instanceof TileEntityPortalCharger) {
-						this.portalCharger = (IEnergyHandler) maybeCharger;
-						Slipgates.logger.debug("Portal Capacitor: I've connected a charger");
-						break;
-					}
-				}
-			}
-		}
 	}
 
 	@Override
@@ -81,17 +55,15 @@ public class TileEntityPortalCapacitor extends TileEntity implements IEnergyRece
 		readFromNBT(packet.func_148857_g());
 	}
 
-	/* IEnergyConnection (connect to energy transportation blocks) */
+	/* IEnergyConnection */
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
-		// TODO check if this hampers recieveEnergy method
 		return false;
 	}
 
 	/* IEnergyReceiver */
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-		System.out.println("Capacitor->receiveEnergy() ran!");
 		int energy = storage.receiveEnergy(maxReceive, simulate);
 		if (!worldObj.isRemote && energy > 0) {
 			this.getWorldObj().markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);

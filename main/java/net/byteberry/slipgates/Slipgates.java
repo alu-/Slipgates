@@ -52,46 +52,30 @@ public class Slipgates {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		logger = event.getModLog();
-		logger.info("Loading " + Reference.MOD_NAME + " " + Reference.VERSION);
-
-		// Register the GUI handler
-		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-		
-		// Register entities
-		GameRegistry.registerTileEntity(net.byteberry.slipgates.tileentity.TileEntityPortalCharger.class, "tileEntityPortalCharger");
-		GameRegistry.registerTileEntity(net.byteberry.slipgates.tileentity.TileEntityPortalCapacitor.class, "tileEntityPortalCapacitor");
-		GameRegistry.registerTileEntity(net.byteberry.slipgates.tileentity.TileEntityPortalEmitter.class, "tileEntityPortalEmitter");
-		
-		// Network
-		PacketHandler.init();
+		this.logger = event.getModLog();
+		this.logger.info("Pre initialization " + Reference.MOD_NAME + " " + Reference.VERSION);
 		
 		this.proxy.preInit(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		// TODO portal loading/saving needs to be server only? We should
-		// probably move this to the proxies
-		// Load our portals from file
-		// portalHandler.load();
-
-		// logger.debug(portalHandler.getAllPortals());
-		
-		// Tell Waila that we are here.
-		FMLInterModComms.sendMessage("Waila", "register", "net.byteberry.slipgates.waila.WailaDataProvider.callbackRegister");
+		this.logger.info("Init " + Reference.MOD_NAME + " " + Reference.VERSION);
 		
 		this.proxy.init(event);
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		logger.info("Finished loading " + Reference.MOD_NAME + " " + Reference.VERSION);
+		this.logger.info("Finished loading " + Reference.MOD_NAME + " " + Reference.VERSION);
+		
 		this.proxy.postInit(event);
 	}
 
 	@Mod.EventHandler
 	public void serverStopping(FMLServerStoppingEvent event) {
+		this.logger.info("Server stopping " + Reference.MOD_NAME + " " + Reference.VERSION);
+		
 		// Save our portals to file
 		// portalHandler.save();
 

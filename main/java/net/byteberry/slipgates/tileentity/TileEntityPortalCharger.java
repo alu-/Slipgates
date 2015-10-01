@@ -48,8 +48,6 @@ public class TileEntityPortalCharger extends TileEntity implements IEnergyHandle
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
-		// TODO do we implement receiving and making other block send power
-		// here?
 	}
 
 	@Override

@@ -5,14 +5,18 @@ import net.byteberry.slipgates.block.PortalBlock;
 import net.byteberry.slipgates.block.PortalCapacitor;
 import net.byteberry.slipgates.block.PortalCharger;
 import net.byteberry.slipgates.block.PortalEmitter;
+import net.byteberry.slipgates.gui.GuiHandler;
+import net.byteberry.slipgates.network.PacketHandler;
 import net.byteberry.utils.Game;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 
@@ -38,26 +42,34 @@ public class CommonProxy implements IProxy {
 	}
 
 	public void init(FMLInitializationEvent event) {
-		System.out.println("Slipgates CommonProxy init");
-
+		// Register entities
+		GameRegistry.registerTileEntity(net.byteberry.slipgates.tileentity.TileEntityPortalCharger.class, "tileEntityPortalCharger");
+		GameRegistry.registerTileEntity(net.byteberry.slipgates.tileentity.TileEntityPortalCapacitor.class, "tileEntityPortalCapacitor");
+		GameRegistry.registerTileEntity(net.byteberry.slipgates.tileentity.TileEntityPortalEmitter.class, "tileEntityPortalEmitter");
+		
+		// Register the GUI handler
+		NetworkRegistry.INSTANCE.registerGuiHandler(Slipgates.instance, new GuiHandler());
+		
+		// Network
+		PacketHandler.init();
+		
 		if (event.getSide().equals(Side.SERVER)) {
 			// Load our portals from file
 			Slipgates.instance.portalHandler.load();
 			Slipgates.instance.logger.debug(Slipgates.portalHandler.getAllPortals());
 		}
 
+		// Hey Waila, watch me do stuff
+		FMLInterModComms.sendMessage("Waila", "register", "net.byteberry.slipgates.waila.WailaDataProvider.callbackRegister");
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void serverStopping(FMLServerStoppingEvent event) {
-		System.out.println("Slipgates CommonProxy server stopping");
-
+		// Save our portals to file if server-side
 		if (event.getSide().equals(Side.SERVER)) {
-			// Save our portals to file
 			Slipgates.instance.portalHandler.save();
 		}
 	}
