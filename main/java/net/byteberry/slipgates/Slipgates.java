@@ -1,29 +1,18 @@
 package net.byteberry.slipgates;
 
+import net.byteberry.slipgates.handler.PortalHandler;
+import net.byteberry.slipgates.proxy.CommonProxy;
+import net.byteberry.slipgates.reference.Reference;
+
 import org.apache.logging.log4j.Logger;
 
-import net.byteberry.slipgates.reference.Reference;
-import net.byteberry.slipgates.network.PacketHandler;
-import net.byteberry.slipgates.proxy.*;
-import net.byteberry.slipgates.block.*;
-import net.byteberry.slipgates.gui.GuiHandler;
-import net.byteberry.slipgates.handler.PortalHandler;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
-import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASS)
 public class Slipgates {

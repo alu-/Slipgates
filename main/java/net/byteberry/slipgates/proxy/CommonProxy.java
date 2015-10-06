@@ -6,11 +6,8 @@ import net.byteberry.slipgates.block.PortalCapacitor;
 import net.byteberry.slipgates.block.PortalCharger;
 import net.byteberry.slipgates.block.PortalEmitter;
 import net.byteberry.slipgates.gui.GuiHandler;
-import net.byteberry.slipgates.network.PacketHandler;
-import net.byteberry.utils.Game;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.world.World;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -51,7 +48,7 @@ public class CommonProxy implements IProxy {
 		NetworkRegistry.INSTANCE.registerGuiHandler(Slipgates.instance, new GuiHandler());
 		
 		// Network
-		PacketHandler.init();
+		//PacketHandler.init();
 		
 		if (event.getSide().equals(Side.SERVER)) {
 			// Load our portals from file

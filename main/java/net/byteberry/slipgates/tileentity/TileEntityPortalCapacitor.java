@@ -3,15 +3,20 @@ package net.byteberry.slipgates.tileentity;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.byteberry.slipgates.Slipgates;
 import net.byteberry.slipgates.block.PortalCharger;
+import net.byteberry.slipgates.gui.container.ContainerBasic;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPortal;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityPortalCapacitor extends TileEntity implements IEnergyReceiver {

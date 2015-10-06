@@ -30,10 +30,5 @@ public class PortalCharger extends Block implements ITileEntityProvider {
 	public TileEntity createNewTileEntity(World var1, int var2) {
 		return new TileEntityPortalCharger();
 	}
-
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int i, float a, float b, float c) {
-		return false;
-	}
-
+	
 }

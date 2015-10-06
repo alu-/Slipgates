@@ -1,16 +1,12 @@
 package net.byteberry.slipgates.block;
 
-import org.apache.logging.log4j.core.LogEvent;
-
 import net.byteberry.slipgates.Slipgates;
-import net.byteberry.slipgates.client.gui.GuiPortalCapacitor;
 import net.byteberry.slipgates.reference.GUIs;
 import net.byteberry.slipgates.reference.Reference;
 import net.byteberry.slipgates.tileentity.TileEntityPortalCapacitor;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -39,7 +35,7 @@ public class PortalCapacitor extends Block implements ITileEntityProvider {
 		System.out.println("Block Activated");
 		try {
 			
-			if( !world.isRemote && world.getTileEntity(x, y, z) instanceof TileEntityPortalCapacitor ) 
+			if( !world.isRemote && !player.isSneaking() && world.getTileEntity(x, y, z) instanceof TileEntityPortalCapacitor ) 
 			{
 				player.openGui(Slipgates.instance, GUIs.GUI_PORTAL_CAPACITOR.ordinal(), world, x, y, z);
 				return true;

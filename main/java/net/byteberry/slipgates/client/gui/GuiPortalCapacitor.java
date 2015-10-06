@@ -1,33 +1,21 @@
 package net.byteberry.slipgates.client.gui;
 
-import net.byteberry.slipgates.inventory.ContainerPortalCapacitor;
+import net.byteberry.slipgates.gui.container.ContainerBasic;
 import net.byteberry.slipgates.reference.Reference;
 import net.byteberry.slipgates.tileentity.TileEntityPortalCapacitor;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.client.GuiScrollingList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiPortalCapacitor extends GuiScreen {
+public class GuiPortalCapacitor extends GuiContainer {
 
 	private static final ResourceLocation guiTexture = new ResourceLocation(Reference.MOD_ID, "textures/gui/guiGenericModal.png");
 	public final int xSizeOfTexture = 176;
@@ -35,11 +23,9 @@ public class GuiPortalCapacitor extends GuiScreen {
 	private TileEntityPortalCapacitor tile;
 	private GuiPortalScrollList optionList;
 
-	public GuiPortalCapacitor(TileEntityPortalCapacitor tile) {
-		this.tile = tile;
-		// Perhaps we need to rework the widths and heights, i suspect our real size of guiscreen is much larger than our background and data
-		//this.height
-		//this.width
+	public GuiPortalCapacitor(InventoryPlayer inventory, TileEntityPortalCapacitor tile) {
+        super(new ContainerBasic(inventory, tile));
+        this.tile = tile;
 	}
 
 	@Override
@@ -68,10 +54,11 @@ public class GuiPortalCapacitor extends GuiScreen {
 		drawCenteredString(fontRendererObj, this.tile.getEnergyStored(ForgeDirection.DOWN) + " RF", width / 2, (height / 2) - 5, 0xFFDE0000);
 	}
 
+	@Override
 	public void drawScreen(int i, int j, float f) {
 		drawDefaultBackground();
-		drawGuiBackgroundLayer();
-
+		drawGuiContainerBackgroundLayer(0, 0, 0);
+		
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 
@@ -81,17 +68,19 @@ public class GuiPortalCapacitor extends GuiScreen {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 
-	protected void drawGuiBackgroundLayer() {
+	@Override
+	public boolean doesGuiPauseGame() {
+		return false;
+	}
+
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		this.mc.renderEngine.bindTexture(this.guiTexture);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		int posX = (this.width - xSizeOfTexture) / 2;
 		int posY = (this.height - ySizeOfTexture) / 2;
 
-		drawTexturedModalRect(posX, posY, 0, 0, xSizeOfTexture, ySizeOfTexture);
-	}
-
-	public boolean doesGuiPauseGame() {
-		return false;
+		drawTexturedModalRect(posX, posY, 0, 0, xSizeOfTexture, ySizeOfTexture);		
 	}
 }
